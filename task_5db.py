@@ -1,6 +1,6 @@
 import psycopg2
 
-with psycopg2.connect(database='', user='postgres', password='') as conn: #необходимо указть базу данных и пароль
+with psycopg2.connect(database='personal_info', user='postgres', password='') as conn: #необходимо указть базу данных и пароль
     with conn.cursor() as cur:
         cur.execute('''
         DROP TABLE phone_number;
@@ -69,7 +69,7 @@ with psycopg2.connect(database='', user='postgres', password='') as conn: #не�
             cursor.execute(""" DELETE FROM phone_number WHERE id=%s ; """, (id,))
             cursor.execute("""SELECT * FROM phone_number;""")
             print(cur.fetchall())
-            
+
         # удаление клиента
         def del_client(cursor, id):
             cursor.execute("""DELETE FROM e_mail WHERE e_mail.id=%s;""", (id,))
@@ -84,16 +84,15 @@ with psycopg2.connect(database='', user='postgres', password='') as conn: #не�
             cur.execute("""SELECT first_name, last_name, em."mail_name", number FROM client c
             JOIN e_mail em ON c.id = em.id
             JOIN phone_number pn ON pn.client_id = c.id
-            WHERE last_name = %s
-            GROUP BY first_name, last_name, em."mail_name", number;""", (LastName,))
+            WHERE last_name = %s;""", (LastName,))
             print(cursor.fetchall())
 
 
         get_create_table(cur)
         append_client(cur, 'Ivan', 'Ivanov')
         append_client(cur, 'Petr', 'Petrov')
-        append_e_mail(cur, 1, 'yhd@fhhf.rg')
-        append_e_mail(cur, 2, 'fjjfj@vjvj.rf')
+        append_e_mail(cur, 1, 'I.Ivanov@mails.rg')
+        append_e_mail(cur, 2, 'P.Petrov@Cmail.rf')
 
         append_phone(cur, 1, 796093)
         append_phone(cur, 1, 232090)
@@ -101,7 +100,7 @@ with psycopg2.connect(database='', user='postgres', password='') as conn: #не�
         append_phone(cur, 2, 567788)
 
         del_phone(cur, 3)
-        del_client(cur, 2)
-        get_client(cur, 'Ivanov')
+        del_client(cur, 1)
+        get_client(cur, 'Petrov')
 
 conn.close()
