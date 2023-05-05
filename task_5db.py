@@ -59,7 +59,7 @@ def get_client(cursor, LastName):
     WHERE last_name = %s;""", (LastName,))
     print(cur.fetchall())
 
-with psycopg2.connect(database='personal_info', user='postgres', password='nikoanna') as conn:
+with psycopg2.connect(database='personal_info', user='postgres', password='') as conn:# в параметрe password укажите пароль пользователья postgres
     with conn.cursor() as cur:
         cur.execute('''DROP TABLE phone_number;
         DROP TABLE e_mail;
